@@ -168,6 +168,15 @@ input[type=text],select{font:inherit;color:var(--ink);background:var(--bg);borde
 .msg{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:20px}
 .msg textarea{font-family:var(--mono);font-size:.84rem;width:100%;min-height:180px;border:1.5px solid var(--line);border-radius:12px;padding:14px;background:var(--bg);color:var(--ink);resize:vertical}
 .msg .actions{display:flex;gap:10px;flex-wrap:wrap}
+.addr{display:flex;flex-direction:column;gap:10px}
+.addr .row2{gap:10px}
+.twint{gap:16px}
+.tw-step{display:flex;gap:14px;align-items:flex-start}
+.tw-step>div{display:flex;flex-direction:column;gap:8px;min-width:0}
+.tw-n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:.85rem}
+.tw-num{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tw-num .mono{font-size:1.35rem;font-weight:500;letter-spacing:.02em}
+.btn.small{padding:8px 14px;font-size:.88rem}
 .note{font-size:.88rem;color:var(--muted)}
 .contact{font-family:var(--mono);background:var(--mist);padding:2px 8px;border-radius:6px;user-select:all;color:var(--ink)}
 
@@ -330,13 +339,9 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
           <select id="qty"><option>1</option><option>2</option><option>3</option></select>
         </div>
         <div class="field">
-          <label for="city">Ville</label>
-          <input type="text" id="city" placeholder="Genève, Lausanne…">
+          <label for="name">Prénom et nom</label>
+          <input type="text" id="name" placeholder="Ton nom" autocomplete="name">
         </div>
-      </div>
-      <div class="field">
-        <label for="name">Prénom et nom</label>
-        <input type="text" id="name" placeholder="Ton nom" autocomplete="name">
       </div>
       <div class="field">
         <span class="legend">Livraison</span>
@@ -351,6 +356,15 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
           <label><input type="radio" name="pay" id="pay-twint" value="TWINT"> TWINT</label>
         </div>
       </div>
+      <div class="addr" id="addr" hidden>
+        <span class="legend">Adresse de livraison</span>
+        <input type="text" id="street" placeholder="Rue et numéro" autocomplete="street-address">
+        <div class="row2">
+          <input type="text" id="npa" placeholder="NPA" inputmode="numeric" autocomplete="postal-code">
+          <input type="text" id="city" placeholder="Ville" autocomplete="address-level2">
+        </div>
+        <input type="text" id="phone" placeholder="Téléphone (pour la livraison)" inputmode="tel" autocomplete="tel">
+      </div>
       <div class="total"><span>Total</span><span class="n mono" id="total">190 CHF</span></div>
       <p class="err" id="err" hidden></p>
       <button class="btn accent" type="submit" id="submit-btn" style="justify-content:center">Passer au paiement</button>
@@ -364,6 +378,31 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
           <button class="btn line" type="button" id="edit2">Modifier</button>
         </div>
         <p class="note">Adresse de livraison et téléphone te sont demandés sur la page de paiement. Tu reçois un reçu par email.</p>
+      </div>
+
+      <div class="msg twint" id="twint" hidden>
+        <p class="legend">Commande <span class="mono" id="tw-ref"></span> : plus que 2 étapes.</p>
+        <div class="tw-step">
+          <span class="tw-n mono">1</span>
+          <div>
+            <p><b>Paie <span id="tw-amount"></span> par TWINT</b> au numéro :</p>
+            <p class="tw-num"><span class="mono" id="tw-number"></span> <button class="btn line small" type="button" id="tw-copy-num">Copier</button></p>
+            <p class="note">Dans le message du paiement TWINT, écris ta référence : <span class="contact" id="tw-ref2"></span></p>
+          </div>
+        </div>
+        <div class="tw-step">
+          <span class="tw-n mono">2</span>
+          <div>
+            <p><b>Envoie ta commande</b> en un clic :</p>
+            <div class="actions">
+              <a class="btn accent" id="tw-wa" href="#" target="_blank" rel="noopener">Envoyer par WhatsApp</a>
+              <a class="btn line" id="tw-sms" href="#">Par SMS</a>
+              <button class="btn line" type="button" id="tw-copy-msg">Copier pour Instagram</button>
+            </div>
+          </div>
+        </div>
+        <p class="note" id="tw-note">Dès que je vois ton paiement, je te confirme la commande et je l'envoie par La Poste.</p>
+        <button class="btn line small" type="button" id="edit3" style="align-self:flex-start">Modifier ma commande</button>
       </div>
 
       <div class="msg" id="msg" hidden>
@@ -434,6 +473,8 @@ const POST_FEE = 3;                 // frais La Poste (CHF)
 // Liens de paiement Stripe (remplace par les liens en mode réel avant de vendre)
 const STRIPE_SHOE = "https://buy.stripe.com/test_3cI5kDeak5bsdLlfaY7kc01";
 const STRIPE_CAP  = "https://buy.stripe.com/test_28E9ATeak8nE22D1k87kc02";
+// Numéro TWINT qui reçoit les paiements (format +41 79 123 45 67). Vide = commande par DM Instagram.
+const TWINT_NUMBER = "";
 const CAP_PRICE = 78;               // prix d'une casquette Alo (CHF)
 const SIZES = [38,39,40,41,42,43,44,45,46];
 const COLORS = [
@@ -610,11 +651,14 @@ function shipping(){ return document.querySelector('input[name=ship]:checked').v
 function unitPrice(){ return state.product==="cap" ? CAP_PRICE : PRICE; }
 function total(){ return unitPrice()*Number($("#qty").value) + (shipping()==="post"?POST_FEE:0); }
 function renderTotal(){ $("#total").textContent = total()+" CHF"; }
-function hideMsg(){ $("#msg").hidden = true; $("#pay").hidden = true; }
+function hideMsg(){ $("#msg").hidden = true; $("#pay").hidden = true; $("#twint").hidden = true; }
+function isTwint(){ return document.querySelector('input[name=pay]:checked').value==="TWINT"; }
+function renderAddr(){ $("#addr").hidden = !(isTwint() && TWINT_NUMBER); }
 function payMethod(){ return document.querySelector('input[name=pay]:checked').value; }
 function cardLink(){ return state.product==="cap" ? STRIPE_CAP : STRIPE_SHOE; }
 function renderSubmit(){
-  $("#submit-btn").textContent = (payMethod()==="Carte bancaire" && cardLink()) ? "Passer au paiement" : "Préparer ma commande";
+  $("#submit-btn").textContent = (payMethod()==="Carte bancaire" && cardLink()) ? "Passer au paiement" : (isTwint() && TWINT_NUMBER) ? "Commander et payer avec TWINT" : "Préparer ma commande";
+  renderAddr();
 }
 
 $("#qty").addEventListener("change", ()=>{renderTotal();hideMsg();});
@@ -624,10 +668,39 @@ $("#order").addEventListener("submit", e=>{
   e.preventDefault();
   const err = $("#err");
   const name = $("#name").value.trim(), city = $("#city").value.trim();
+  const street = $("#street").value.trim(), npa = $("#npa").value.trim(), phone = $("#phone").value.trim();
   if(state.product==="shoe" && !state.size){ err.textContent="Choisis ta pointure pour continuer."; err.hidden=false; return; }
   if(!name){ err.textContent="Indique ton prénom et nom pour que je sache à qui répondre."; err.hidden=false; return; }
   err.hidden = true;
   const ship = "Envoi La Poste (+"+POST_FEE+" CHF)";
+  if (isTwint() && TWINT_NUMBER){
+    if(!street || !npa || !city){ err.textContent="Indique ton adresse complète pour la livraison (rue, NPA, ville)."; err.hidden=false; return; }
+    if(!phone){ err.textContent="Indique ton numéro de téléphone pour que je puisse te contacter pour la livraison."; err.hidden=false; return; }
+    const ref = "MOV-" + String(Math.floor(1000 + Math.random()*9000));
+    const item = state.product==="cap" ? "Casquette Alo, coloris "+capById(state.cap).name+", taille unique" : "On Cloudtilt, coloris "+byId(state.color).name+", pointure EU "+state.size;
+    const msg =
+`Commande Movyra ${ref}
+• ${item}
+• Quantité : ${$("#qty").value}
+• Total : ${total()} CHF (livraison La Poste incluse)
+• Paiement : TWINT au ${TWINT_NUMBER}, référence ${ref}
+
+Livraison :
+${name}
+${street}
+${npa} ${city}
+Tél. ${phone}`;
+    const digits = TWINT_NUMBER.replace(/[^0-9]/g,"").replace(/^0/,"41");
+    $("#tw-ref").textContent = ref; $("#tw-ref2").textContent = ref;
+    $("#tw-amount").textContent = total()+" CHF";
+    $("#tw-number").textContent = TWINT_NUMBER;
+    $("#tw-wa").href = "https://wa.me/"+digits+"?text="+encodeURIComponent(msg);
+    $("#tw-sms").href = "sms:+"+digits+"?&body="+encodeURIComponent(msg);
+    $("#tw-copy-msg").dataset.msg = msg;
+    $("#tw-note").textContent = "Dès que je vois ton paiement, je te confirme la commande et je l'envoie par La Poste.";
+    $("#msg").hidden = true; $("#pay").hidden = true; $("#twint").hidden = false;
+    return;
+  }
   if (payMethod()==="Carte bancaire" && cardLink()){
     const ref = state.product==="cap" ? capById(state.cap).name : byId(state.color).name+", "+state.size;
     $("#pay-ref").textContent = ref;
@@ -658,7 +731,15 @@ $("#copy").addEventListener("click", ()=>{
 });
 $("#edit").addEventListener("click", ()=>{ hideMsg(); $("#name").focus(); });
 $("#edit2").addEventListener("click", ()=>{ hideMsg(); $("#name").focus(); });
+$("#edit3").addEventListener("click", ()=>{ hideMsg(); $("#name").focus(); });
+function copyText(text, okMsg){
+  const note = $("#tw-note");
+  const fallback = ()=>{ note.textContent = "Copie impossible ici : recopie le texte à la main."; };
+  try{ navigator.clipboard.writeText(text).then(()=>{ note.textContent = okMsg; }, fallback); }catch(_){ fallback(); }
+}
+$("#tw-copy-num").addEventListener("click", ()=> copyText(TWINT_NUMBER, "Numéro copié. Colle-le dans TWINT."));
+$("#tw-copy-msg").addEventListener("click", e=> copyText(e.currentTarget.dataset.msg, "Commande copiée. Colle-la dans un DM Instagram à "+CONTACT_IG+"."));
 
-setColor("bleu"); renderSizes(); renderTotal();
+setColor("bleu"); renderSizes(); renderTotal(); renderSubmit();
 $("#trust-ig").textContent = CONTACT_IG; $("#foot-ig").textContent = CONTACT_IG;
 </script>
