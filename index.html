@@ -50,6 +50,13 @@ a{color:inherit}
 @keyframes breathe{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.86);opacity:.6}}
 .tagline{font-family:var(--serif);font-style:italic;font-size:clamp(1.8rem,4.4vw,3.2rem);line-height:1.1;margin-top:26px}
 .hero .sub{color:var(--muted);max-width:46ch;margin:14px auto 0}
+.compare{display:inline-flex;align-items:center;gap:18px;margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 22px}
+.compare .lbl{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.compare s{font-size:1.15rem;color:var(--muted)}
+.compare b{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:1.6rem;letter-spacing:-.02em}
+.compare .arrow{color:var(--muted);font-size:1.2rem}
+.save{margin-top:10px;font-weight:600;color:var(--accent)}
+@media (max-width:440px){ .compare{gap:10px;padding:10px 14px} .compare b{font-size:1.3rem} }
 .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
 .btn{appearance:none;border:0;background:var(--ink);color:var(--bg);font:inherit;font-weight:600;border-radius:999px;padding:15px 26px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:transform .2s,background .2s}
 .btn:hover{transform:translateY(-2px)}
@@ -103,6 +110,18 @@ a{color:inherit}
 .cap-price{font-size:1.1rem}
 .cap-card .btn{align-self:flex-start}
 .opts.two{grid-template-columns:1fr 1fr}
+
+.info>*,.order>*{min-width:0}
+/* ---------- trust ---------- */
+.trust{margin-top:90px}
+.trust h2{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(2.2rem,5vw,3.6rem);line-height:.92;letter-spacing:-.03em;text-transform:uppercase;margin-top:12px}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:30px}
+.trust .t{display:flex;flex-direction:column;gap:8px;border-top:2px solid var(--ink);padding-top:16px}
+.trust .k{font-size:.78rem;color:var(--muted)}
+.trust h3{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:1.1rem}
+.trust .t p{color:var(--muted);font-size:.94rem}
+@media (max-width:860px){ .trust-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:440px){ .trust-grid{grid-template-columns:1fr} }
 
 /* ---------- promises ---------- */
 .promises{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);margin-top:90px}
@@ -190,7 +209,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
   <header class="nav">
     <a class="brand" href="#top">MOVYRA</a>
     <nav aria-label="Navigation">
-      <a href="#coloris">Coloris</a><a href="#casquettes">Casquettes</a><a href="#commande">Commander</a><a href="#infos">Tailles & FAQ</a>
+      <a href="#coloris">Coloris</a><a href="#casquettes">Casquettes</a><a href="#confiance">Confiance</a><a href="#commande">Commander</a><a href="#infos">Tailles & FAQ</a>
     </nav>
     <a class="pill" href="#commande">Commander</a>
   </header>
@@ -205,7 +224,13 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
     <div class="hero-shoe"><div class="float" id="hero-art"></div></div>
     <div class="hero-shadow" aria-hidden="true"></div>
     <p class="tagline">Marcher comme on rêve.</p>
-    <p class="sub">On Cloudtilt, neuves et en boîte, en quatre coloris. Choisis la tienne, je te la livre.</p>
+    <div class="compare" aria-label="Comparaison de prix">
+      <span class="was"><span class="lbl">Prix officiel en Suisse</span><s class="mono">220 CHF</s></span>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span class="now"><span class="lbl">Chez Movyra</span><b class="mono">190 CHF</b></span>
+    </div>
+    <p class="save">Tu économises 30 CHF sur la même paire, neuve et en boîte.</p>
+    <p class="sub">On Cloudtilt en quatre coloris. Choisis la tienne, je te la livre.</p>
     <div class="swatch-row" id="hero-dots" role="group" aria-label="Coloris affiché"></div>
     <div class="hero-cta">
       <a class="btn" href="#commande">Commander ma paire →</a>
@@ -241,11 +266,26 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
 
   <!-- PROMISES -->
   <div class="promises">
-    <div class="promise"><span class="big mono">190 · 78</span><p>CHF la paire, CHF la casquette. Le prix final, sans surprise.</p></div>
+    <div class="promise"><span class="big mono">−30 CHF</span><p>Par rapport au prix officiel en Suisse (220 CHF).</p></div>
     <div class="promise"><span class="big">Neuves</span><p>En boîte d'origine, jamais portées.</p></div>
     <div class="promise"><span class="big">TWINT · Carte</span><p>Carte bancaire en ligne, ou TWINT.</p></div>
     <div class="promise"><span class="big">Échange</span><p>La taille ne va pas ? On échange, selon le stock.</p></div>
   </div>
+
+  <!-- TRUST -->
+  <section class="trust" id="confiance">
+    <div class="trust-head">
+      <p class="eyebrow">Acheter en confiance</p>
+      <h2>Du vrai. Rien d'autre.</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="t"><span class="k mono">01</span><h3>Achetées neuves</h3><p>Chez un revendeur officiel de la marque. Jamais de seconde main, jamais de copie.</p></div>
+      <div class="t"><span class="k mono">02</span><h3>Facture sur demande</h3><p>Je te montre la facture d'achat de ta paire avant que tu paies. Il suffit de demander.</p></div>
+      <div class="t"><span class="k mono">03</span><h3>Photos de ta paire</h3><p>Des photos réelles de la paire qui sera la tienne, avec la boîte et l'étiquette.</p></div>
+      <div class="t"><span class="k mono">04</span><h3>Paiement sécurisé</h3><p>La carte passe par Stripe : je ne vois jamais tes numéros. Reçu envoyé par email.</p></div>
+    </div>
+    <p class="note" style="margin-top:22px">Une question avant d'acheter ? Écris-moi sur Instagram, <span class="contact" id="trust-ig"></span>. Je réponds moi-même.</p>
+  </section>
 
   <!-- ORDER -->
   <section class="order" id="commande">
@@ -348,7 +388,8 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
     <div>
       <p class="eyebrow">Questions</p>
       <h3 style="margin-top:10px">FAQ</h3>
-      <details><summary>Les paires sont-elles authentiques ?</summary><p>Oui. Achetées neuves chez un revendeur officiel, livrées dans leur boîte d'origine avec l'étiquette.</p></details>
+      <details><summary>Pourquoi moins cher que le prix officiel ?</summary><p>Je les achète au meilleur prix chez des revendeurs officiels, y compris pendant les promotions, et je garde une petite marge. Pas de magasin, pas de loyer : la différence est pour toi.</p></details>
+      <details><summary>Les paires sont-elles authentiques ?</summary><p>Oui. Achetées neuves chez un revendeur officiel de la marque, livrées dans leur boîte d'origine avec l'étiquette. Je te montre la facture d'achat et des photos réelles de ta paire avant paiement.</p></details>
       <details><summary>Et si la taille ne va pas ?</summary><p>Tant que la paire n'a pas été portée dehors, je l'échange contre une autre pointure selon le stock.</p></details>
       <details><summary>Comment je paie ?</summary><p>Par carte bancaire, directement sur le site via une page de paiement sécurisée. Ou par TWINT : tu m'envoies ta commande en DM et je te réponds avec les infos de paiement.</p></details>
       <details><summary>Quel délai ?</summary><p>Quelques jours si la paire est en stock. Sinon je te donne un délai précis avant paiement.</p></details>
@@ -365,7 +406,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
   </section>
 
   <footer>
-    <span>Movyra · revente de sneakers en Suisse</span>
+    <span>Movyra · revente de sneakers en Suisse · Contact : <span id="foot-ig"></span></span>
     <span>Revendeur indépendant, non affilié à On AG. « On » et « Cloud » sont des marques de leurs propriétaires.</span>
   </footer>
 </div>
@@ -376,6 +417,7 @@ const IMG = {"cap_taupe": "data:image/webp;base64,UklGRgJMAABXRUJQVlA4WAoAAAAQAA
 
 // ============ À MODIFIER ============
 const CONTACT_IG = "@movyraonline"; // ton pseudo Instagram
+const OFFICIAL = 220;               // prix officiel On Suisse (on.com, oct. 2026)
 const PRICE = 190;                  // prix d'une paire (CHF)
 const POST_FEE = 3;                 // frais La Poste (CHF)
 // Liens de paiement Stripe (remplace par les liens en mode réel avant de vendre)
@@ -462,7 +504,7 @@ function place(el, col){ el.replaceChildren(shoe(col)); }
         <div class="meta">
           <span><b>Tons</b>${col.tone}</span>
           <span><b>Pointures</b>EU 38–46</span>
-          <span><b>Prix</b>${PRICE} CHF</span>
+          <span><b>Prix</b><s style="color:var(--muted)">${OFFICIAL}</s> ${PRICE} CHF</span>
         </div>
         <div class="actions"><button class="btn" type="button" data-pick="${col.id}">Choisir ${col.name} →</button></div>
       </div>`;
@@ -607,4 +649,5 @@ $("#edit").addEventListener("click", ()=>{ hideMsg(); $("#name").focus(); });
 $("#edit2").addEventListener("click", ()=>{ hideMsg(); $("#name").focus(); });
 
 setColor("bleu"); renderSizes(); renderTotal();
+$("#trust-ig").textContent = CONTACT_IG; $("#foot-ig").textContent = CONTACT_IG;
 </script>
