@@ -152,10 +152,17 @@ a{color:inherit}
 .opt{appearance:none;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:12px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:500}
 .opt i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);flex:none}
 .opt[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
-.sizes{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px}
-.size{appearance:none;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px 0;font-family:var(--mono);cursor:pointer;transition:background .15s}
-.size:hover{border-color:var(--muted)}
-.size[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.size-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.size-head a{font-size:.82rem;color:var(--muted);text-underline-offset:3px}
+.size-head a:hover{color:var(--ink)}
+.sizes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.size{appearance:none;position:relative;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;height:52px;font-family:var(--display);font-stretch:112%;font-weight:700;font-size:1.02rem;font-variant-numeric:tabular-nums;cursor:pointer;display:flex;align-items:baseline;justify-content:center;padding-top:15px;transition:border-color .2s,background .2s,color .2s,transform .15s,box-shadow .2s}
+.size .half{font-size:.68em;font-weight:600;opacity:.75;margin-left:1px}
+.size:hover{border-color:var(--ink)}
+.size:active{transform:scale(.96)}
+.size[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);box-shadow:0 10px 22px -12px rgba(14,17,22,.55)}
+.size-chosen{font-size:.86rem;color:var(--muted);min-height:1.3em}
+.size-chosen b{color:var(--ink);font-family:var(--display);font-stretch:112%}
 input[type=text],select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .radio{display:flex;flex-direction:column;gap:8px}
@@ -182,7 +189,8 @@ input[type=text],select{font:inherit;color:var(--ink);background:var(--bg);borde
 .msg textarea{font-family:var(--mono);font-size:.84rem;width:100%;min-height:180px;border:1.5px solid var(--line);border-radius:12px;padding:14px;background:var(--bg);color:var(--ink);resize:vertical}
 .msg .actions{display:flex;gap:10px;flex-wrap:wrap}
 .addr{display:flex;flex-direction:column;gap:10px}
-.size-tip{font-size:.86rem;color:var(--muted);background:var(--mist);border-radius:12px;padding:10px 14px}
+.size-tip{display:flex;gap:12px;align-items:flex-start;font-size:.86rem;color:var(--muted);background:var(--mist);border-radius:14px;padding:12px 14px;line-height:1.45}
+.size-tip svg{flex:none;width:20px;height:20px;color:var(--ink);margin-top:1px}
 .size-tip b{color:var(--ink)}
 .addr .row2{gap:10px}
 .twint{gap:16px}
@@ -346,9 +354,10 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       </div>
       <p class="note" id="cap-size" hidden>Casquette taille unique, avec réglage à l'arrière.</p>
       <div class="field" id="size-field">
-        <span class="legend" id="size-label">Pointure (EU)</span>
+        <div class="size-head"><span class="legend" id="size-label">Pointure (EU)</span><a href="#infos">Guide des tailles</a></div>
         <div class="sizes" id="sizes" role="group" aria-labelledby="size-label"></div>
-        <p class="size-tip"><b>Conseil taille :</b> les On taillent un peu petit. On te conseille de prendre une demi-pointure (0,5) au-dessus de ta taille habituelle.</p>
+        <p class="size-chosen" id="size-chosen">Choisis ta pointure.</p>
+        <p class="size-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5h.01"/></svg><span><b>Conseil taille :</b> les On taillent un peu petit. Prends une demi-pointure au-dessus de ta taille habituelle (par exemple 42,5 si tu fais du 42).</span></p>
       </div>
       <div class="row2">
         <div class="field">
@@ -494,7 +503,7 @@ const STRIPE_CAP  = "https://buy.stripe.com/test_28E9ATeak8nE22D1k87kc02";
 // Numéro TWINT qui reçoit les paiements (format +41 79 123 45 67). Vide = commande par DM Instagram.
 const TWINT_NUMBER = "";
 const CAP_PRICE = 78;               // prix d'une casquette Alo (CHF)
-const SIZES = [38,39,40,41,42,43,44,45,46];
+const SIZES = [38,38.5,39,40,40.5,41,42,42.5,43,44,44.5,45,46,47,47.5];   // pointures EU officielles On
 const COLORS = [
   {id:"bleu", name:"Bleu", n:"01", dot:"#2B3A67",
    poem:"Pour ceux qui partent tôt et rentrent tard.",
@@ -536,7 +545,7 @@ function place(el, col){ el.replaceChildren(shoe(col)); }
 
 /* ticker */
 (function(){
-  const items = ["<b>Movyra</b>","On Cloudtilt","Bleu","Blanc","Rock","Noir","EU 38–46","190 CHF","Casquettes Alo","78 CHF","Livré en Suisse","TWINT","Carte bancaire"];
+  const items = ["<b>Movyra</b>","On Cloudtilt","Bleu","Blanc","Rock","Noir","EU 38–47,5","190 CHF","Casquettes Alo","78 CHF","Livré en Suisse","TWINT","Carte bancaire"];
   const once = items.map(t=>`<span>${t}</span>`).join("");
   $("#ticker").innerHTML = once + once + once + once;
 })();
@@ -573,7 +582,7 @@ function place(el, col){ el.replaceChildren(shoe(col)); }
         <p class="desc">${col.desc}</p>
         <div class="meta">
           <span><b>Tons</b>${col.tone}</span>
-          <span><b>Pointures</b>EU 38–46</span>
+          <span><b>Pointures</b>EU 38–47,5</span>
           <span><b>Prix</b><s style="color:var(--muted)">${OFFICIAL}</s> ${PRICE} CHF</span>
         </div>
         <div class="actions"><button class="btn" type="button" data-pick="${col.id}">Choisir ${col.name} →</button></div>
@@ -630,11 +639,16 @@ function renderSizes(){
   const box = $("#sizes"); box.innerHTML = "";
   SIZES.forEach(sz=>{
     const b = document.createElement("button");
-    b.type="button"; b.className="size"; b.id="size-"+sz; b.textContent=sz;
+    b.type="button"; b.className="size"; b.id="size-"+String(sz).replace(".","-");
+    const whole = Math.floor(sz); b.append(document.createTextNode(whole));
+    if (sz % 1){ const h=document.createElement("span"); h.className="half"; h.textContent=",5"; b.append(h); }
+    b.setAttribute("aria-label", "Pointure "+String(sz).replace(".",","));
     b.setAttribute("aria-pressed", String(sz===state.size));
     b.addEventListener("click", ()=>{ state.size=sz; renderSizes(); hideMsg(); $("#err").hidden=true; });
     box.appendChild(b);
   });
+  const c=$("#size-chosen");
+  if (c){ c.innerHTML = state.size ? 'Pointure choisie : <b>EU '+String(state.size).replace(".",",")+'</b>' : "Choisis ta pointure."; }
 }
 function setColor(id){
   state.color = id; state.product = "shoe";
@@ -695,7 +709,7 @@ $("#order").addEventListener("submit", e=>{
     if(!street || !npa || !city){ err.textContent="Indique ton adresse complète pour la livraison (rue, NPA, ville)."; err.hidden=false; return; }
     if(!phone){ err.textContent="Indique ton numéro de téléphone pour que je puisse te contacter pour la livraison."; err.hidden=false; return; }
     const ref = "MOV-" + String(Math.floor(1000 + Math.random()*9000));
-    const item = state.product==="cap" ? "Casquette Alo, coloris "+capById(state.cap).name+", taille unique" : "On Cloudtilt, coloris "+byId(state.color).name+", pointure EU "+state.size;
+    const item = state.product==="cap" ? "Casquette Alo, coloris "+capById(state.cap).name+", taille unique" : "On Cloudtilt, coloris "+byId(state.color).name+", pointure EU "+String(state.size).replace(".",",");
     const msg =
 `Commande Movyra ${ref}
 • ${item}
@@ -720,7 +734,7 @@ Tél. ${phone}`;
     return;
   }
   if (payMethod()==="Carte bancaire" && cardLink()){
-    const ref = state.product==="cap" ? capById(state.cap).name : byId(state.color).name+", "+state.size;
+    const ref = state.product==="cap" ? capById(state.cap).name : byId(state.color).name+", "+String(state.size).replace(".",",");
     $("#pay-ref").textContent = ref;
     $("#pay-field").textContent = state.product==="cap" ? "Coloris" : "Coloris et pointure";
     $("#pay-link").href = cardLink();
@@ -730,7 +744,7 @@ Tél. ${phone}`;
   }
   $("#msg-text").value =
 `Salut Movyra ! Je veux commander :
-${state.product==="cap" ? "• Casquette Alo, coloris "+capById(state.cap).name+"\n• Taille unique" : "• On Cloudtilt, coloris "+byId(state.color).name+"\n• Pointure EU "+state.size}
+${state.product==="cap" ? "• Casquette Alo, coloris "+capById(state.cap).name+"\n• Taille unique" : "• On Cloudtilt, coloris "+byId(state.color).name+"\n• Pointure EU "+String(state.size).replace(".",",")}
 • Quantité : ${$("#qty").value}
 • Livraison : ${ship}${city ? "\n• Ville : "+city : ""}
 • Paiement : ${document.querySelector('input[name=pay]:checked').value}
