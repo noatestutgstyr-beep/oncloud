@@ -503,7 +503,7 @@ const STRIPE_CAP  = "https://buy.stripe.com/test_28E9ATeak8nE22D1k87kc02";
 // Numéro TWINT qui reçoit les paiements (format +41 79 123 45 67). Vide = commande par DM Instagram.
 const TWINT_NUMBER = "";
 const CAP_PRICE = 78;               // prix d'une casquette Alo (CHF)
-const SIZES = [38,38.5,39,40,40.5,41,42,42.5,43,44,44.5,45,46,47,47.5];   // pointures EU officielles On
+const SIZES = [39.5,40,40.5,41,41.5,42,42.5,43,43.5,44,44.5,45,45.5,46];   // pointures EU officielles On
 const COLORS = [
   {id:"bleu", name:"Bleu", n:"01", dot:"#2B3A67",
    poem:"Pour ceux qui partent tôt et rentrent tard.",
@@ -545,7 +545,7 @@ function place(el, col){ el.replaceChildren(shoe(col)); }
 
 /* ticker */
 (function(){
-  const items = ["<b>Movyra</b>","On Cloudtilt","Bleu","Blanc","Rock","Noir","EU 38–47,5","190 CHF","Casquettes Alo","78 CHF","Livré en Suisse","TWINT","Carte bancaire"];
+  const items = ["<b>Movyra</b>","On Cloudtilt","Bleu","Blanc","Rock","Noir","EU 39,5–46","190 CHF","Casquettes Alo","78 CHF","Livré en Suisse","TWINT","Carte bancaire"];
   const once = items.map(t=>`<span>${t}</span>`).join("");
   $("#ticker").innerHTML = once + once + once + once;
 })();
@@ -582,7 +582,7 @@ function place(el, col){ el.replaceChildren(shoe(col)); }
         <p class="desc">${col.desc}</p>
         <div class="meta">
           <span><b>Tons</b>${col.tone}</span>
-          <span><b>Pointures</b>EU 38–47,5</span>
+          <span><b>Pointures</b>EU 39,5–46</span>
           <span><b>Prix</b><s style="color:var(--muted)">${OFFICIAL}</s> ${PRICE} CHF</span>
         </div>
         <div class="actions"><button class="btn" type="button" data-pick="${col.id}">Choisir ${col.name} →</button></div>
