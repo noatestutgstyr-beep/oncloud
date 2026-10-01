@@ -109,7 +109,7 @@ a{color:inherit}
 .cap-info h3{font-family:var(--display);font-stretch:125%;font-weight:800;font-size:1.3rem;text-transform:uppercase}
 .cap-price{font-size:1.1rem}
 .cap-card .btn{align-self:flex-start}
-.opts.two{grid-template-columns:1fr 1fr}
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 
 .info>*,.order>*{min-width:0}
 /* ---------- trust ---------- */
@@ -145,17 +145,37 @@ a{color:inherit}
 .order .left .serif{font-style:italic;font-size:1.5rem;margin-top:14px;color:var(--muted)}
 .order .preview{margin-top:26px;background:radial-gradient(ellipse at 50% 60%,#FFFFFF,var(--mist));border-radius:26px;padding:24px;aspect-ratio:4/3;max-width:100%;display:grid;place-items:center}
 .order .preview img{width:100%;height:auto;filter:drop-shadow(0 20px 20px rgba(14,17,22,.13));transition:opacity .3s}
-.form{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:22px}
+.form{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:28px;counter-reset:step;box-shadow:0 30px 60px -40px rgba(14,17,22,.25)}
 .field{display:flex;flex-direction:column;gap:10px}
 .legend,.field label{font-weight:600;font-size:.9rem}
+.legend.step{display:flex;align-items:center;gap:10px;font-family:var(--display);font-stretch:112%;font-weight:800;font-size:.98rem;letter-spacing:.005em}
+.legend.step::before{counter-increment:step;content:counter(step);flex:none;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--mono);font-size:.7rem;font-weight:500;font-stretch:100%}
+.lg-sub{font-family:var(--mono);font-size:.7rem;font-weight:500;color:var(--muted);letter-spacing:.1em;font-stretch:100%}
+.sub-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.sub-field label{font-size:.78rem;font-weight:500;color:var(--muted)}
+.row2.infos{grid-template-columns:92px 1fr}
 .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.opt{appearance:none;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:14px;padding:12px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:500}
-.opt i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);flex:none}
-.opt[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.opt{appearance:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 14px;font:inherit;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:500;transition:border-color .2s,box-shadow .2s,transform .15s}
+.opt:hover{border-color:var(--faint)}
+.opt:active{transform:scale(.98)}
+.opt i{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 0 0 3px var(--surface),0 0 0 4px transparent;flex:none;transition:box-shadow .2s}
+.opt[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink),0 10px 22px -14px rgba(14,17,22,.4);font-weight:600}
+.opt[aria-pressed="true"] i{box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 0 0 3px var(--surface),0 0 0 4.5px var(--ink)}
+.opt.prod{flex-direction:column;align-items:stretch;gap:10px;padding:8px 8px 12px;text-align:left}
+.prod .thumb{aspect-ratio:16/9;border-radius:10px;background:radial-gradient(ellipse at 50% 65%,#FFFFFF,var(--mist));display:grid;place-items:center;overflow:hidden}
+.prod .thumb img{width:84%;max-height:88%;object-fit:contain;filter:drop-shadow(0 8px 8px rgba(14,17,22,.12));transition:transform .3s}
+.opt.prod:hover .thumb img{transform:rotate(-4deg) scale(1.03)}
+.prod .prow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 8px;padding-inline:6px}
+.prod .nm{font-weight:600;font-size:.92rem}
+.prod .pr{font-family:var(--mono);font-size:.78rem;color:var(--muted);white-space:nowrap}
 .size-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .size-head a{font-size:.82rem;color:var(--muted);text-underline-offset:3px}
 .size-head a:hover{color:var(--ink)}
-.sizes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.size-box{container-type:inline-size}
+.sizes{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.size{min-width:0}
+@container (max-width:420px){ .sizes{gap:5px} .size{height:46px;font-size:.86rem;border-radius:11px;padding-top:14px} }
+@container (max-width:290px){ .sizes{grid-template-columns:repeat(5,minmax(0,1fr))} }
 .size{appearance:none;position:relative;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:14px;height:52px;font-family:var(--display);font-stretch:112%;font-weight:700;font-size:1.02rem;font-variant-numeric:tabular-nums;cursor:pointer;display:flex;align-items:baseline;justify-content:center;padding-top:15px;transition:border-color .2s,background .2s,color .2s,transform .15s,box-shadow .2s}
 .size .half{font-size:.68em;font-weight:600;opacity:.75;margin-left:1px}
 .size:hover{border-color:var(--ink)}
@@ -163,7 +183,9 @@ a{color:inherit}
 .size[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);box-shadow:0 10px 22px -12px rgba(14,17,22,.55)}
 .size-chosen{font-size:.86rem;color:var(--muted);min-height:1.3em}
 .size-chosen b{color:var(--ink);font-family:var(--display);font-stretch:112%}
-input[type=text],select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+input[type=text],select{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;width:100%;transition:border-color .2s,box-shadow .2s}
+input[type=text]::placeholder{color:var(--faint)}
+input[type=text]:focus,select:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 10%,transparent)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .radio{display:flex;flex-direction:column;gap:8px}
 .radio label{display:flex;gap:14px;align-items:center;font-weight:500;border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;background:var(--surface);transition:border-color .2s,box-shadow .2s,transform .2s}
@@ -234,7 +256,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
   .order,.info,.cap-grid{grid-template-columns:1fr}
   .order .left{position:static}
 }
-@media (max-width:640px){ .opts{grid-template-columns:1fr 1fr} }
+@media (max-width:640px){ .opts{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:440px){ .row2{grid-template-columns:1fr} .promises{grid-template-columns:1fr} }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -342,41 +364,44 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
 
     <form class="form" id="order" novalidate>
       <div class="field">
-        <span class="legend" id="product-label">Article</span>
+        <span class="legend step" id="product-label">Article</span>
         <div class="opts two" id="product-opts" role="group" aria-labelledby="product-label">
-          <button type="button" class="opt" id="prod-shoe" data-product="shoe">On Cloudtilt <span class="mono" style="margin-left:auto;color:var(--muted);font-size:.8rem">190</span></button>
-          <button type="button" class="opt" id="prod-cap" data-product="cap">Casquette Alo <span class="mono" style="margin-left:auto;color:var(--muted);font-size:.8rem">78</span></button>
+          <button type="button" class="opt prod" id="prod-shoe" data-product="shoe"><span class="thumb" id="thumb-shoe"></span><span class="prow"><span class="nm">On Cloudtilt</span><span class="pr">190 CHF</span></span></button>
+          <button type="button" class="opt prod" id="prod-cap" data-product="cap"><span class="thumb" id="thumb-cap"></span><span class="prow"><span class="nm">Casquette Alo</span><span class="pr">78 CHF</span></span></button>
         </div>
       </div>
       <div class="field">
-        <span class="legend" id="color-label">Coloris</span>
+        <span class="legend step" id="color-label">Coloris</span>
         <div class="opts" id="color-opts" role="group" aria-labelledby="color-label"></div>
       </div>
       <p class="note" id="cap-size" hidden>Casquette taille unique, avec réglage à l'arrière.</p>
       <div class="field" id="size-field">
-        <div class="size-head"><span class="legend" id="size-label">Pointure (EU)</span><a href="#infos">Guide des tailles</a></div>
-        <div class="sizes" id="sizes" role="group" aria-labelledby="size-label"></div>
+        <div class="size-head"><span class="legend step" id="size-label">Pointure <span class="lg-sub">EU</span></span><a href="#infos">Guide des tailles</a></div>
+        <div class="size-box"><div class="sizes" id="sizes" role="group" aria-labelledby="size-label"></div></div>
         <p class="size-chosen" id="size-chosen">Choisis ta pointure.</p>
         <p class="size-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5h.01"/></svg><span><b>Conseil taille :</b> les On taillent un peu petit. Prends une demi-pointure au-dessus de ta taille habituelle (par exemple 42,5 si tu fais du 42).</span></p>
       </div>
-      <div class="row2">
-        <div class="field">
-          <label for="qty">Quantité</label>
-          <select id="qty"><option>1</option><option>2</option><option>3</option></select>
-        </div>
-        <div class="field">
-          <label for="name">Prénom et nom</label>
-          <input type="text" id="name" placeholder="Ton nom" autocomplete="name">
+      <div class="field">
+        <span class="legend step">Tes infos</span>
+        <div class="row2 infos">
+          <div class="sub-field qty-field">
+            <label for="qty">Quantité</label>
+            <select id="qty"><option>1</option><option>2</option><option>3</option></select>
+          </div>
+          <div class="sub-field">
+            <label for="name">Prénom et nom</label>
+            <input type="text" id="name" placeholder="Ton nom" autocomplete="name">
+          </div>
         </div>
       </div>
       <div class="field">
-        <span class="legend">Livraison</span>
+        <span class="legend step">Livraison</span>
         <div class="radio">
           <label><input type="radio" name="ship" id="ship-post" value="post" checked><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></span><span class="opt-main">Envoi La Poste<span class="opt-sub">3 CHF · 2 à 7 jours</span></span></label>
         </div>
       </div>
       <div class="field">
-        <span class="legend">Paiement</span>
+        <span class="legend step">Paiement</span>
         <div class="radio">
           <label><input type="radio" name="pay" id="pay-card" value="Carte bancaire" checked><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h3"/></svg></span><span class="opt-main">Carte bancaire<span class="opt-sub">Visa, Mastercard · sécurisé</span></span></label>
           <label><input type="radio" name="pay" id="pay-twint" value="TWINT"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span class="opt-main">TWINT<span class="opt-sub">Depuis ton appli TWINT</span></span></label>
@@ -650,16 +675,20 @@ function renderSizes(){
   const c=$("#size-chosen");
   if (c){ c.innerHTML = state.size ? 'Pointure choisie : <b>EU '+String(state.size).replace(".",",")+'</b>' : "Choisis ta pointure."; }
 }
+function renderThumbs(){
+  const a=$("#thumb-shoe"), c=$("#thumb-cap");
+  if(a) place(a, byId(state.color)); if(c) place(c, capById(state.cap));
+}
 function setColor(id){
   state.color = id; state.product = "shoe";
   place($("#hero-art"), byId(id));
   place($("#order-art"), byId(id));
-  renderDots(); renderColorOpts(); renderTotal(); renderSubmit(); hideMsg();
+  renderDots(); renderColorOpts(); renderThumbs(); renderTotal(); renderSubmit(); hideMsg();
 }
 function setCap(id){
   state.cap = id; state.product = "cap";
   place($("#order-art"), capById(id));
-  renderColorOpts(); renderTotal(); renderSubmit(); hideMsg();
+  renderColorOpts(); renderThumbs(); renderTotal(); renderSubmit(); hideMsg();
 }
 document.querySelectorAll("#product-opts .opt").forEach(b=>b.addEventListener("click", ()=>{
   b.dataset.product==="cap" ? setCap(state.cap) : setColor(state.color);
