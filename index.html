@@ -159,18 +159,22 @@ a{color:inherit}
 input[type=text],select{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .radio{display:flex;flex-direction:column;gap:8px}
-.radio label{display:flex;gap:12px;align-items:center;font-weight:500;border:2px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;background:var(--bg);transition:border-color .15s,background .15s,box-shadow .15s}
-.radio label:hover{border-color:var(--muted)}
-.radio input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:0;border-radius:50%;border:2px solid var(--faint);background:var(--surface);display:grid;place-items:center;cursor:pointer;transition:border-color .15s,background .15s}
-.radio input::after{content:"";width:10px;height:6px;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg);opacity:0;transition:opacity .15s}
-.radio input:checked{background:var(--accent);border-color:var(--accent)}
+.radio label{display:flex;gap:14px;align-items:center;font-weight:500;border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;background:var(--surface);transition:border-color .2s,box-shadow .2s,transform .2s}
+.radio label:hover{border-color:var(--faint)}
+.radio label:active{transform:scale(.995)}
+.radio .ico{flex:none;width:40px;height:40px;border-radius:12px;background:var(--mist);display:grid;place-items:center;color:var(--muted);transition:background .2s,color .2s}
+.radio .ico svg{width:20px;height:20px}
+.radio input{appearance:none;-webkit-appearance:none;flex:none;order:9;width:20px;height:20px;margin:0 0 0 4px;border-radius:50%;border:1.5px solid var(--faint);background:var(--surface);display:grid;place-items:center;cursor:pointer;transition:border-color .2s,background .2s}
+.radio input::after{content:"";width:8px;height:5px;border:solid var(--bg);border-width:0 0 2px 2px;transform:translateY(-1px) rotate(-45deg);opacity:0;transition:opacity .2s}
+.radio input:checked{background:var(--ink);border-color:var(--ink)}
 .radio input:checked::after{opacity:1}
 .radio input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.radio label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--surface));box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 14%,transparent);font-weight:600}
-.radio .opt-main{display:flex;flex-direction:column;gap:2px;min-width:0}
-.radio .opt-sub{font-size:.8rem;font-weight:500;color:var(--muted)}
-.radio .p{margin-left:auto;font-family:var(--mono);font-size:.85rem;color:var(--muted);white-space:nowrap}
-.radio label:has(input:checked) .p{color:var(--accent);font-weight:600}
+.radio label:has(input:checked){border-color:var(--ink);box-shadow:0 0 0 1px var(--ink),0 10px 24px -14px rgba(14,17,22,.35)}
+.radio label:has(input:checked) .ico{background:var(--ink);color:var(--bg)}
+.radio .opt-main{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.radio .opt-sub{font-size:.8rem;font-weight:400;color:var(--muted)}
+.radio .p{font-family:var(--mono);font-size:.85rem;color:var(--muted);white-space:nowrap}
+.radio label:has(input:checked) .p{color:var(--ink)}
 .total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:18px}
 .total .n{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:2rem;letter-spacing:-.02em}
 .err{color:#C2362B;font-size:.9rem}
@@ -356,14 +360,14 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       <div class="field">
         <span class="legend">Livraison</span>
         <div class="radio">
-          <label><input type="radio" name="ship" id="ship-post" value="post" checked><span class="opt-main">Envoi La Poste<span class="opt-sub">Partout en Suisse, 2 à 7 jours</span></span><span class="p">+3 CHF</span></label>
+          <label><input type="radio" name="ship" id="ship-post" value="post" checked><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></span><span class="opt-main">Envoi La Poste<span class="opt-sub">3 CHF · 2 à 7 jours</span></span></label>
         </div>
       </div>
       <div class="field">
         <span class="legend">Paiement</span>
         <div class="radio">
-          <label><input type="radio" name="pay" id="pay-card" value="Carte bancaire" checked><span class="opt-main">Carte bancaire<span class="opt-sub">Visa, Mastercard, paiement sécurisé</span></span></label>
-          <label><input type="radio" name="pay" id="pay-twint" value="TWINT"><span class="opt-main">TWINT<span class="opt-sub">Paiement depuis ton appli TWINT</span></span></label>
+          <label><input type="radio" name="pay" id="pay-card" value="Carte bancaire" checked><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h3"/></svg></span><span class="opt-main">Carte bancaire<span class="opt-sub">Visa, Mastercard · sécurisé</span></span></label>
+          <label><input type="radio" name="pay" id="pay-twint" value="TWINT"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span class="opt-main">TWINT<span class="opt-sub">Depuis ton appli TWINT</span></span></label>
         </div>
       </div>
       <div class="addr" id="addr" hidden>
