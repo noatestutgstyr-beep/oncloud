@@ -114,6 +114,13 @@ a{color:inherit}
 .info>*,.order>*{min-width:0}
 /* ---------- trust ---------- */
 .trust{margin-top:90px}
+.trust-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.sold{display:flex;align-items:baseline;gap:12px;max-width:26ch}
+.sold .n{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(3rem,7vw,4.6rem);line-height:.9;letter-spacing:.02em}
+.sold span:last-child{color:var(--muted);font-weight:600;line-height:1.25}
+.newshop{margin-top:28px;background:var(--mist);border-radius:18px;padding:18px 22px;max-width:70ch}
+.newshop p{color:var(--muted)}
+.newshop b{color:var(--ink)}
 .trust h2{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(2.2rem,5vw,3.6rem);line-height:.92;letter-spacing:-.03em;text-transform:uppercase;margin-top:12px}
 .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:30px}
 .trust .t{display:flex;flex-direction:column;gap:8px;border-top:2px solid var(--ink);padding-top:16px}
@@ -229,7 +236,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       <span class="arrow" aria-hidden="true">→</span>
       <span class="now"><span class="lbl">Chez Movyra</span><b class="mono">190 CHF</b></span>
     </div>
-    <p class="save">Tu économises 30 CHF sur la même paire, neuve et en boîte.</p>
+    <p class="save">Tu économises 30 CHF sur la même paire, neuve et en boîte. Déjà 11 paires vendues.</p>
     <p class="sub">On Cloudtilt en quatre coloris. Choisis la tienne, je te la livre.</p>
     <div class="swatch-row" id="hero-dots" role="group" aria-label="Coloris affiché"></div>
     <div class="hero-cta">
@@ -275,8 +282,11 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
   <!-- TRUST -->
   <section class="trust" id="confiance">
     <div class="trust-head">
-      <p class="eyebrow">Acheter en confiance</p>
-      <h2>Du vrai. Rien d'autre.</h2>
+      <div>
+        <p class="eyebrow">Acheter en confiance</p>
+        <h2>Du vrai. Rien d'autre.</h2>
+      </div>
+      <div class="sold"><span class="n mono">11</span><span>paires déjà vendues en Suisse</span></div>
     </div>
     <div class="trust-grid">
       <div class="t"><span class="k mono">01</span><h3>Achetées neuves</h3><p>Chez un revendeur officiel de la marque. Jamais de seconde main, jamais de copie.</p></div>
@@ -284,7 +294,9 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       <div class="t"><span class="k mono">03</span><h3>Photos de ta paire</h3><p>Des photos réelles de la paire qui sera la tienne, avec la boîte et l'étiquette.</p></div>
       <div class="t"><span class="k mono">04</span><h3>Paiement sécurisé</h3><p>La carte passe par Stripe : je ne vois jamais tes numéros. Reçu envoyé par email.</p></div>
     </div>
-    <p class="note" style="margin-top:22px">Une question avant d'acheter ? Écris-moi sur Instagram, <span class="contact" id="trust-ig"></span>. Je réponds moi-même.</p>
+    <div class="newshop">
+      <p><b>Movyra vient d'ouvrir son site.</b> Tu fais partie des premiers à commander en ligne. Une question avant d'acheter ? Écris-moi sur Instagram, <span class="contact" id="trust-ig"></span>. Je réponds moi-même.</p>
+    </div>
   </section>
 
   <!-- ORDER -->
