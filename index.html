@@ -1,4 +1,19 @@
-<title>Movyra Sneakers</title>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Movyra · On Cloudtilt neuves en Suisse</title>
+<meta name="description" content="On Cloudtilt neuves et en boîte, 190 CHF au lieu de 220 CHF. Quatre coloris, livraison en Suisse, paiement par carte ou TWINT.">
+<meta name="theme-color" content="#F7F8FA">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Movyra · On Cloudtilt à 190 CHF">
+<meta property="og:description" content="Neuves, en boîte, livrées partout en Suisse. Carte ou TWINT.">
+<meta property="og:image" content="https://oncloud-ashen.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E1116'/%3E%3Ctext x='32' y='45' font-family='Arial Black,Arial' font-weight='900' font-size='38' text-anchor='middle' fill='white'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
@@ -13,6 +28,9 @@
   --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
 *{box-sizing:border-box}
+html,body{margin:0}
+img{max-width:100%}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:20px;overflow-x:hidden}
@@ -55,6 +73,8 @@ a{color:inherit}
 .compare s{font-size:1.15rem;color:var(--muted)}
 .compare b{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:1.6rem;letter-spacing:-.02em}
 .compare .arrow{color:var(--muted);font-size:1.2rem}
+.hero-trust{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 18px;margin-top:18px;font-size:.82rem;color:var(--muted)}
+.hero-trust span::before{content:"✓";margin-right:6px;color:var(--ink);font-weight:700}
 .save{margin-top:10px;font-weight:600;color:var(--accent)}
 @media (max-width:440px){ .compare{gap:10px;padding:10px 14px} .compare b{font-size:1.3rem} }
 .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
@@ -259,6 +279,14 @@ details p{color:var(--muted);margin-top:8px;font-size:.95rem;max-width:52ch}
 .finale .word{font-size:clamp(3.8rem,17vw,14rem);margin-top:40px;color:transparent;-webkit-text-stroke:1.5px var(--ink)}
 .legal{flex-basis:100%;display:flex;flex-direction:column;gap:4px;padding-top:10px;border-top:1px solid var(--line)}
 .legal b{color:var(--ink);font-weight:600}
+.buybar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;display:none;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 10px 18px;border-radius:20px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 18px 40px -18px rgba(14,17,22,.45);transform:translateY(140%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.buybar.show{transform:none}
+.bb-info{display:flex;flex-direction:column;line-height:1.2}
+.bb-name{font-weight:600;font-size:.92rem}
+.bb-price{font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+.bb-price s{margin-right:4px}
+.buybar .btn{padding:12px 20px}
+@media (max-width:860px){ .buybar{display:flex} footer{padding-bottom:110px} }
 footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
 
 @media (max-width:860px){
@@ -278,6 +306,9 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
   .manifesto .w{color:var(--ink)}
 }
 </style>
+</head>
+<body>
+
 
 
 <div class="wrap">
@@ -312,6 +343,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       <a class="btn" href="#commande">Commander ma paire →</a>
       <a class="btn line" href="#coloris">Voir les coloris</a>
     </div>
+    <p class="hero-trust"><span>Neuves en boîte</span><span>Livraison 3 CHF</span><span>Carte ou TWINT</span></p>
   </section>
 
   <div class="ticker" aria-hidden="true">
@@ -410,7 +442,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
     <div class="trust-grid">
       <div class="t"><span class="k mono">01</span><h3>Achetées neuves</h3><p>Chez un revendeur officiel de la marque. Jamais de seconde main, jamais de copie.</p></div>
       <div class="t"><span class="k mono">02</span><h3>Étiquette et boîte d'origine</h3><p>Chaque paire arrive avec sa boîte et son étiquette intérieure, avec le code produit officiel que tu peux vérifier.</p></div>
-      <div class="t"><span class="k mono">03</span><h3>Photos de ta paire</h3><p>Des photos réelles de la paire qui sera la tienne, avec la boîte et l'étiquette.</p></div>
+      <div class="t"><span class="k mono">03</span><h3>Photos sur demande</h3><p>Avant de commander, demande-moi des photos réelles de la paire, de sa boîte et de son étiquette.</p></div>
       <div class="t"><span class="k mono">04</span><h3>Paiement sécurisé</h3><p>La carte passe par Stripe : je ne vois jamais tes numéros. Reçu envoyé par email.</p></div>
     </div>
     <div class="newshop">
@@ -556,10 +588,10 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       <p class="eyebrow">Questions</p>
       <h3 style="margin-top:10px">FAQ</h3>
       <details><summary>Pourquoi moins cher que le prix officiel ?</summary><p>Je les achète au meilleur prix chez des revendeurs officiels, y compris pendant les promotions, et je garde une petite marge. Pas de magasin, pas de loyer : la différence est pour toi.</p></details>
-      <details><summary>Les paires sont-elles authentiques ?</summary><p>Oui. Achetées neuves chez un revendeur officiel de la marque, livrées dans leur boîte d'origine avec l'étiquette. Je t'envoie des photos réelles de ta paire, de sa boîte et de son étiquette avant paiement.</p></details>
-      <details><summary>Comment je paie ?</summary><p>Par carte bancaire, directement sur le site via une page de paiement sécurisée. Ou par TWINT : tu m'envoies ta commande en DM et je te réponds avec les infos de paiement.</p></details>
-      <details><summary>Quel délai ?</summary><p>Quelques jours si la paire est en stock. Sinon je te donne un délai précis avant paiement.</p></details>
-      <details><summary>Je peux voir la vraie paire ?</summary><p>Oui, je t'envoie des photos réelles de ta paire avant que tu paies.</p></details>
+      <details><summary>Les paires sont-elles authentiques ?</summary><p>Oui. Achetées neuves chez un revendeur officiel de la marque, livrées dans leur boîte d'origine avec l'étiquette. Avant de commander, je peux t'envoyer des photos réelles de la paire, de sa boîte et de son étiquette.</p></details>
+      <details><summary>Comment je paie ?</summary><p>Par carte bancaire ou par TWINT, directement sur le site, via une page de paiement sécurisée. Avec TWINT, ton appli s'ouvre et tu n'as qu'à accepter. Tu reçois un reçu par email.</p></details>
+      <details><summary>Quel délai ?</summary><p>Envoi par La Poste, livré en 2 à 7 jours. Si ta pointure n'est plus disponible, je te préviens tout de suite et je te rembourse entièrement.</p></details>
+      <details><summary>Je peux voir la vraie paire ?</summary><p>Oui. Écris-moi sur Instagram avant de commander et je t'envoie des photos réelles de la paire.</p></details>
       <details><summary>Vous livrez hors de Suisse ?</summary><p>Pas pour l'instant : uniquement en Suisse.</p></details>
     </div>
   </section>
@@ -570,6 +602,11 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
     <div class="hero-cta" style="margin-top:28px"><a class="btn" href="#commande">Commander ma paire →</a></div>
     <p class="word" aria-hidden="true">MOVYRA</p>
   </section>
+
+  <div class="buybar" id="buybar" aria-hidden="true">
+    <div class="bb-info"><span class="bb-name">On Cloudtilt</span><span class="bb-price"><s>220</s> 190 CHF</span></div>
+    <a class="btn accent" href="#commande" tabindex="-1">Commander</a>
+  </div>
 
   <footer>
     <span>Movyra · revente de sneakers en Suisse · Contact : <a id="foot-ig" href="https://www.instagram.com/movyraonline.ch" target="_blank" rel="noopener"></a></span>
@@ -881,6 +918,14 @@ $("#tw-copy-num").addEventListener("click", ()=> copyText(TWINT_NUMBER, "Numéro
 $("#tw-copy-msg").addEventListener("click", e=> copyText(e.currentTarget.dataset.msg, "Commande copiée. Colle-la dans un DM Instagram à "+CONTACT_IG+"."));
 
 setColor("bleu"); renderSizes(); renderTotal(); renderSubmit();
+(function(){
+  const bar=$("#buybar"), hero=$(".hero-cta"), order=$("#commande");
+  if(!bar||!hero||!order||!("IntersectionObserver" in window)) return;
+  let heroVisible=true, orderVisible=false;
+  const upd=()=>{ const on=!heroVisible && !orderVisible; bar.classList.toggle("show", on); bar.setAttribute("aria-hidden", String(!on)); bar.querySelector("a").tabIndex = on?0:-1; };
+  new IntersectionObserver(e=>{ heroVisible=e[0].isIntersecting; upd(); }).observe(hero);
+  new IntersectionObserver(e=>{ orderVisible=e[0].isIntersecting; upd(); },{threshold:0.05}).observe(order);
+})();
 $("#req-form").addEventListener("submit", e=>{
   e.preventDefault();
   const item=$("#req-item").value.trim(), size=$("#req-size").value.trim(), budget=$("#req-budget").value.trim(), name=$("#req-name").value.trim();
@@ -915,3 +960,5 @@ if (LEGAL.name && LEGAL.address && (LEGAL.email || LEGAL.phone)){
 }
 $("#trust-ig").textContent = CONTACT_IG; $("#foot-ig").textContent = CONTACT_IG;
 </script>
+</body>
+</html>
