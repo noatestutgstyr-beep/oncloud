@@ -373,6 +373,13 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       </div>
       <p class="err" id="req-err" hidden></p>
       <button class="btn" type="submit" id="req-submit" style="justify-content:center">Envoyer ma demande</button>
+      <div class="msg" id="req-sms" hidden>
+        <p class="legend">Ta demande est prête.</p>
+        <p class="note">Si l'appli Messages ne s'est pas ouverte, appuie sur le bouton.</p>
+        <div class="actions">
+          <a class="btn accent" id="req-sms-link" href="#">Envoyer par message</a>
+        </div>
+      </div>
       <div class="msg" id="req-done" hidden>
         <p class="legend">Ta demande est copiée.</p>
         <p class="note">Colle-la dans un message Instagram à <a class="contact" href="https://www.instagram.com/movyraonline.ch" target="_blank" rel="noopener">@movyraonline.ch</a>. Je te réponds avec un prix.</p>
@@ -589,6 +596,8 @@ const STRIPE_SHOE = "https://buy.stripe.com/test_3cI5kDeak5bsdLlfaY7kc01";
 const STRIPE_CAP  = "https://buy.stripe.com/test_28E9ATeak8nE22D1k87kc02";
 // Numéro TWINT qui reçoit les paiements (format +41 79 123 45 67). Vide = commande par DM Instagram.
 const TWINT_NUMBER = "";
+// Ton numéro pour les demandes spéciales par SMS / iMessage (format +41 79 123 45 67). Vide = Instagram.
+const SMS_NUMBER = "";
 // TWINT via Stripe : passe à true quand TWINT est activé dans Stripe (Paramètres > Moyens de paiement)
 const STRIPE_TWINT = true;
 // Mentions légales (obligatoires pour TWINT) : remplis-les, le bloc s'affiche tout seul en bas du site
@@ -883,6 +892,14 @@ $("#req-form").addEventListener("submit", e=>{
 • Article : ${item}${size ? "\n• Taille : "+size : ""}${budget ? "\n• Budget max : "+budget+" CHF" : ""}
 
 ${name}`;
+  if (SMS_NUMBER){
+    const digits = SMS_NUMBER.replace(/[^0-9+]/g,"").replace(/^0/,"+41");
+    const href = "sms:" + digits + "?&body=" + encodeURIComponent(msg);
+    $("#req-sms-link").href = href;
+    $("#req-sms").hidden = false;
+    location.href = href;
+    return;
+  }
   $("#req-text").value = msg;
   $("#req-done").hidden = false;
   try{ navigator.clipboard.writeText(msg).catch(()=>{}); }catch(_){}
