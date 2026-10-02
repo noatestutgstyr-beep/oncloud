@@ -95,6 +95,18 @@ a{color:inherit}
 .chapter .art{position:relative;z-index:1}
 .chapter .art img{width:100%;height:auto;display:block;filter:drop-shadow(0 26px 26px rgba(14,17,22,.14));transform:rotate(var(--tilt,-6deg)) translateX(var(--shift,0px));transition:transform .15s linear}
 
+/* ---------- sur demande ---------- */
+.request{margin-top:18px;border-radius:32px;border:1px solid var(--line);background:var(--surface);padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.request>*{min-width:0}
+.request h2{font-family:var(--display);font-stretch:125%;font-weight:900;font-size:clamp(2.2rem,5vw,3.8rem);line-height:.92;letter-spacing:-.03em;text-transform:uppercase;margin-top:12px}
+.req-lead{font-style:italic;font-size:clamp(1.3rem,2.4vw,1.7rem);margin-top:14px;color:var(--muted)}
+.req-steps{list-style:none;counter-reset:rq;padding:0;margin:26px 0 0;display:flex;flex-direction:column;gap:14px}
+.req-steps li{counter-increment:rq;display:flex;gap:14px;align-items:flex-start;color:var(--muted)}
+.req-steps li::before{content:counter(rq);flex:none;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--mono);font-size:.74rem}
+.req-steps b{color:var(--ink)}
+.req-form{background:var(--mist);border-radius:22px;padding:clamp(18px,3vw,28px);display:flex;flex-direction:column;gap:16px}
+@media (max-width:860px){ .request{grid-template-columns:1fr} }
+
 /* ---------- caps ---------- */
 .caps{margin-top:18px;border-radius:32px;background:var(--mist);padding:clamp(28px,5vw,64px)}
 .caps-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:30px}
@@ -273,7 +285,7 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
   <header class="nav">
     <a class="brand" href="#top">MOVYRA</a>
     <nav aria-label="Navigation">
-      <a href="#coloris">Coloris</a><a href="#casquettes">Casquettes</a><a href="#confiance">Confiance</a><a href="#commande">Commander</a><a href="#infos">Tailles & FAQ</a>
+      <a href="#coloris">Coloris</a><a href="#casquettes">Casquettes</a><a href="#sur-demande">Sur demande</a><a href="#confiance">Confiance</a><a href="#commande">Commander</a><a href="#infos">Tailles & FAQ</a>
     </nav>
     <a class="pill" href="#commande">Commander</a>
   </header>
@@ -326,6 +338,51 @@ footer{border-top:1px solid var(--line);padding-block:22px 36px;display:flex;jus
       <p class="serif">Le dernier détail. Celui qu'on remarque.</p>
     </div>
     <div class="cap-grid" id="cap-grid"></div>
+  </section>
+
+  <!-- SUR DEMANDE -->
+  <section class="request" id="sur-demande">
+    <div class="req-copy">
+      <p class="eyebrow">Sur demande</p>
+      <h2>Tu cherches autre chose&nbsp;?</h2>
+      <p class="serif req-lead">Sneakers, casquette, survêt : dis-moi ce que tu veux, je le trouve pour toi.</p>
+      <ol class="req-steps">
+        <li><span><b>Tu décris l'article</b> : marque, modèle, coloris, taille.</span></li>
+        <li><span><b>Je te réponds avec un prix</b>, pour un article neuf acheté chez un revendeur officiel.</span></li>
+        <li><span><b>Tu paies seulement si le prix te va.</b> Sinon, aucun engagement.</span></li>
+      </ol>
+    </div>
+    <form class="req-form" id="req-form" novalidate>
+      <div class="sub-field">
+        <label for="req-item">Article recherché</label>
+        <input type="text" id="req-item" placeholder="Ex. New Balance 9060 grise">
+      </div>
+      <div class="row2">
+        <div class="sub-field">
+          <label for="req-size">Taille</label>
+          <input type="text" id="req-size" placeholder="Ex. 43 ou M">
+        </div>
+        <div class="sub-field">
+          <label for="req-budget">Budget max (CHF)</label>
+          <input type="text" id="req-budget" inputmode="numeric" placeholder="Ex. 200">
+        </div>
+      </div>
+      <div class="sub-field">
+        <label for="req-name">Prénom</label>
+        <input type="text" id="req-name" placeholder="Ton prénom" autocomplete="given-name">
+      </div>
+      <p class="err" id="req-err" hidden></p>
+      <button class="btn" type="submit" id="req-submit" style="justify-content:center">Envoyer ma demande</button>
+      <div class="msg" id="req-done" hidden>
+        <p class="legend">Ta demande est copiée.</p>
+        <p class="note">Colle-la dans un message Instagram à <a class="contact" href="https://www.instagram.com/movyraonline.ch" target="_blank" rel="noopener">@movyraonline.ch</a>. Je te réponds avec un prix.</p>
+        <textarea id="req-text" readonly></textarea>
+        <div class="actions">
+          <a class="btn accent" href="https://ig.me/m/movyraonline.ch" target="_blank" rel="noopener">Ouvrir Instagram</a>
+          <button class="btn line" type="button" id="req-copy">Copier à nouveau</button>
+        </div>
+      </div>
+    </form>
   </section>
 
   <!-- PROMISES -->
@@ -815,6 +872,25 @@ $("#tw-copy-num").addEventListener("click", ()=> copyText(TWINT_NUMBER, "Numéro
 $("#tw-copy-msg").addEventListener("click", e=> copyText(e.currentTarget.dataset.msg, "Commande copiée. Colle-la dans un DM Instagram à "+CONTACT_IG+"."));
 
 setColor("bleu"); renderSizes(); renderTotal(); renderSubmit();
+$("#req-form").addEventListener("submit", e=>{
+  e.preventDefault();
+  const item=$("#req-item").value.trim(), size=$("#req-size").value.trim(), budget=$("#req-budget").value.trim(), name=$("#req-name").value.trim();
+  const err=$("#req-err");
+  if(!item){ err.textContent="Décris l'article que tu cherches (marque et modèle)."; err.hidden=false; return; }
+  if(!name){ err.textContent="Indique ton prénom pour que je sache à qui répondre."; err.hidden=false; return; }
+  err.hidden=true;
+  const msg = `Salut Movyra ! Demande spéciale :
+• Article : ${item}${size ? "\n• Taille : "+size : ""}${budget ? "\n• Budget max : "+budget+" CHF" : ""}
+
+${name}`;
+  $("#req-text").value = msg;
+  $("#req-done").hidden = false;
+  try{ navigator.clipboard.writeText(msg).catch(()=>{}); }catch(_){}
+});
+$("#req-copy").addEventListener("click", ()=>{
+  const t=$("#req-text");
+  try{ navigator.clipboard.writeText(t.value).then(()=>{}, ()=>{ t.focus(); t.select(); }); }catch(_){ t.focus(); t.select(); }
+});
 if (LEGAL.name && LEGAL.address && (LEGAL.email || LEGAL.phone)){
   const parts = [LEGAL.name + (LEGAL.form ? ", " + LEGAL.form : ""), LEGAL.address, LEGAL.email, LEGAL.phone].filter(Boolean);
   $("#legal-body").textContent = parts.join(" · ");
